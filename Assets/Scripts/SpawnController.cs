@@ -12,19 +12,22 @@ public class SpawnController : MonoBehaviour
     private bool kolvo = false;
     private bool dist = false;
 
+    private bool spawn = false;
+
     private int kolvo_s = 0;
     private int dist_s = 0;
 
-    private void Spawn(int kolvo, int dist)
+    private void Spawn(int kolvo, int dist, Vector3 posy)
     {
         double sqrt = Math.Sqrt(kolvo);
+
         if (sqrt%1==0)
         {
-            for (int x=0; x<sqrt*dist; x+= dist)
+            for (int x=(int)posy.x; x<sqrt*dist+posy.x; x+= dist)
             {
-                for (int y = 0; y < sqrt*dist; y+= dist)
+                for (int y = (int)posy.z; y < sqrt*dist+posy.z; y+= dist)
                 {
-                    Instantiate(copter, new Vector3(x, 0, y), Quaternion.identity);
+                    Instantiate(copter, new Vector3(x, 1, y), Quaternion.identity);
                 }
             }
         }
@@ -34,25 +37,40 @@ public class SpawnController : MonoBehaviour
             int tekkolvo = 0;
             bool check = false;
 
-            for (int x = 0; x < sqrtfix * dist; x += dist)
+            int oldposyx = (int)posy.x;
+            int oldposyz = (int)posy.z;
+
+
+            while (tekkolvo!=kolvo)
             {
-                for (int y = 0; y < sqrtfix * dist; y += dist)
-                {
-                    Instantiate(copter, new Vector3(x, 0, y), Quaternion.identity);
-                    tekkolvo++;
-                    if (tekkolvo + 1 == kolvo)
+                int f = 0;
+                int ff = 0;
+                for (int x = oldposyx; x < sqrtfix * dist+ oldposyx; x += dist)
+                { 
+                    for (int y=oldposyz;y<sqrtfix*dist+oldposyz;y+=dist)
                     {
-                        Instantiate(copter, new Vector3(x, 0, y+=dist), Quaternion.identity);
-                        check =true;
-                        break;
+                        if (tekkolvo == kolvo)
+                        {
+                            check = true;
+                            ff = y;
+                            break;
+                        }
+                        Instantiate(copter, new Vector3(x, 1, y), Quaternion.identity);
+                        tekkolvo++;
+                        ff = y;
                     }
+
+                    f = x;
+                    
                 }
+                oldposyx = f+=dist;
+                //oldposyz = ff + dist;
+                
                 if (check)
                 {
                     break;
                 }
             }
-
         }
     }
 
@@ -83,7 +101,28 @@ public class SpawnController : MonoBehaviour
 
         if (kolvo && dist)
         {
-            Spawn(kolvo_s, dist_s);
+            spawn = true;
         }
+    }
+
+    private void Update()
+    {
+        if (spawn)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                Debug.DrawLine(ray.origin, hit.point);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Spawn(kolvo_s, dist_s, hit.point);
+                    spawn = false;
+                }
+            }
+        }
+        
+            
     }
 }
