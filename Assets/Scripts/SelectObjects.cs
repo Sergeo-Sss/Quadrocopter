@@ -130,18 +130,23 @@ public class SelectObjects : MonoBehaviour {
     public void CreateGroup(GameObject but)
     {
         TMP_InputField input = but.GetComponent<TMP_InputField>();
-        m_DropOptions.Clear();
-        m_DropOptions.Add(input.text);
-        groups.AddOptions(m_DropOptions);
 
-
-        //че делаем со списком
-        GameObject newgroup = new GameObject(input.text);
-
-        for (int i=0;i<unitSelected.Count;i++)
+        if (input.text!="")
         {
-            unitSelected[i].transform.parent = newgroup.transform;
+            m_DropOptions.Clear();
+            m_DropOptions.Add(input.text);
+            groups.AddOptions(m_DropOptions);
+
+
+            //че делаем со списком
+            GameObject newgroup = new GameObject(input.text);
+
+            for (int i = 0; i < unitSelected.Count; i++)
+            {
+                unitSelected[i].transform.parent = newgroup.transform;
+            }
         }
+        
 
         Deselect();
         startPos = Input.mousePosition;

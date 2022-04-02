@@ -12,10 +12,14 @@ public class SpawnController : MonoBehaviour
     private bool kolvo = false;
     private bool dist = false;
 
+    public int kolvosensors = 0;
+
     private bool spawn = false;
 
     private int kolvo_s = 0;
     private int dist_s = 0;
+
+    public float[] sensorserror = new float[9];
 
     private void Spawn(int kolvo, int dist, Vector3 posy)
     {
@@ -79,30 +83,63 @@ public class SpawnController : MonoBehaviour
         TMP_InputField input = but.GetComponent<TMP_InputField>();
         if (but.name == "Kolvo_kopters")
         {
-            if (input.text!="")
+            if (input.text!="" && Convert.ToInt32(input.text) >= 1)
             {
                 kolvo_s = Convert.ToInt32(input.text);
                 kolvo = true;
                 input.image.color = Color.green;
                 input.enabled = false;
             }
+            else
+            {
+                input.image.color = Color.red;
+            }
            
         }
         else if (but.name == "Dist_kopters")
         {
-            if (input.text != "")
+            if (input.text != "" && Convert.ToInt32(input.text)>=2)
             {
                 dist_s = Convert.ToInt32(input.text);
                 dist = true;
                 input.image.color = Color.green;
                 input.enabled = false;
             }
+            else
+            {
+                input.image.color = Color.red;
+            }
         }
 
-        if (kolvo && dist)
+        if (kolvo && dist &&kolvosensors==9)
         {
             spawn = true;
         }
+    }
+
+    public void InitValueSensors(GameObject but)
+    {
+        TMP_InputField input = but.GetComponent<TMP_InputField>();
+        int value;
+
+        if (input.text != "" && Convert.ToInt32(input.text) >= 1)
+        {
+            value = Convert.ToInt32(input.text);
+            sensorserror[but.GetComponent<SensorID>().ID] = value;
+            input.image.color = Color.green;
+            input.enabled = false;
+            kolvosensors++;
+        }
+        else
+        {
+            input.image.color = Color.red;
+        }
+
+        if (kolvo && dist && kolvosensors == 9)
+        {
+            spawn = true;
+        }
+
     }
 
     private void Update()
