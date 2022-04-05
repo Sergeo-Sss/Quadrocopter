@@ -9,6 +9,8 @@ public class SpawnController : MonoBehaviour
     [Header("Copter prefab")]
     public GameObject copter;
 
+    public GameObject[] copters;
+
     private bool kolvo = false;
     private bool dist = false;
 
@@ -27,11 +29,26 @@ public class SpawnController : MonoBehaviour
 
         if (sqrt%1==0)
         {
+            int tekkolvo = 0;
+            bool check = false;
+
             for (int x=(int)posy.x; x<sqrt*dist+posy.x; x+= dist)
             {
                 for (int y = (int)posy.z; y < sqrt*dist+posy.z; y+= dist)
                 {
-                    Instantiate(copter, new Vector3(x, 1, y), Quaternion.identity);
+                    if (tekkolvo == kolvo)
+                    {
+                        check = true;
+                        break;
+                    }
+                    GameObject go = Instantiate(copter, new Vector3(x, 1, y), Quaternion.identity);
+                    go.GetComponent<CopterID>().ID = tekkolvo;
+                    tekkolvo++;
+                }
+
+                if (check)
+                {
+                    break;
                 }
             }
         }
@@ -59,7 +76,8 @@ public class SpawnController : MonoBehaviour
                             ff = y;
                             break;
                         }
-                        Instantiate(copter, new Vector3(x, 1, y), Quaternion.identity);
+                        GameObject go = Instantiate(copter, new Vector3(x, 1, y), Quaternion.identity);
+                        go.GetComponent<CopterID>().ID = tekkolvo;
                         tekkolvo++;
                         ff = y;
                     }
@@ -155,6 +173,7 @@ public class SpawnController : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     Spawn(kolvo_s, dist_s, hit.point);
+                    copters = GameObject.FindGameObjectsWithTag("copter");
                     spawn = false;
                 }
             }

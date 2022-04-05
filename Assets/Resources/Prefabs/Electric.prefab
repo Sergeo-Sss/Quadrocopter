@@ -295,11 +295,12 @@ GameObject:
   - component: {fileID: 513843198384527670}
   - component: {fileID: 513843198384527671}
   - component: {fileID: 68197882518347846}
+  - component: {fileID: 7159771012438108693}
   - component: {fileID: 8896551541889538902}
   - component: {fileID: 1104370388926602753}
   m_Layer: 0
   m_Name: Electric
-  m_TagString: Untagged
+  m_TagString: copter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -652,6 +653,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4aeb68adf81d0c4aa51d21493a01640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7159771012438108693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513843198384527665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f89d37f50adc54c964fc56482905ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 0
 --- !u!114 &8896551541889538902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,6 +696,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24101839b86af034e9c9bab6fb1ea4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gps:
+  - 0
+  - 0
+  moduls: []
+  speed: 0
+  ultrazvuk: 0
+  kompass: 
+  barometer: 0
 --- !u!1 &513843198746612449
 GameObject:
   m_ObjectHideFlags: 0
