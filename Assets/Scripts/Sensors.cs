@@ -147,7 +147,6 @@ public class Sensors : MonoBehaviour
     }
     public void GetGyroscop()
     {
-        print(GetComponent<Rigidbody>().velocity+" "+ GetComponent<Rigidbody>().angularVelocity);
     }
     public void GetGPS()
     {
